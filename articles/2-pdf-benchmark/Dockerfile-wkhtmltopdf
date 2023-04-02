@@ -1,0 +1,37 @@
+# Base image
+FROM node:18
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libfontconfig1 \
+        libfreetype6 \
+        libjpeg62-turbo \
+        libx11-6 \
+        libxcb1 \
+        libxext6 \
+        libxrender1 \
+        wget \
+        xfonts-75dpi \
+        xfonts-base \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q -O wkhtmltox.deb https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb && \
+    dpkg -i wkhtmltox.deb && \
+    rm wkhtmltox.deb
+
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY wkhtmltopdf-package*.json ./package.json
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Run the app
+CMD [ "node", "wkhtmltopdf.js" ]
