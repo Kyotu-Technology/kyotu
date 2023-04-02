@@ -1,0 +1,10 @@
+{
+  "name": "puppeteer_pdf_generation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "puppeteer.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "puppeteer": "^19.8.2"
+  }
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome file</title>
+    <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<div class="stackedit__html"><h1 id="performance-comparison-of-pdf-generation-libraries-wkhtmltopdf-vs-puppeteer">Performance Comparison of PDF Generation Libraries: wkhtmltopdf vs Puppeteer</h1>
+    <h2 id="introduction">Introduction</h2>
+    <p>In this blog post, we aim to compare the performance of two popular PDF generation libraries: <strong>wkhtmltopdf</strong> and <strong>Puppeteer</strong>. Our goal is to provide an in-depth analysis, which will help CTOs, experienced architects, and senior software engineers make informed decisions when selecting the most suitable library for their projects.</p>
+    <h3 id="introducing-wkhtmltopdf-and-puppeteer-libraries">Introducing wkhtmltopdf and Puppeteer Libraries</h3>
+    <p><strong>wkhtmltopdf</strong> is an open-source command-line tool that converts HTML documents into PDF files. It uses the WebKit rendering engine to create PDFs with high fidelity to the original HTML content. On the other hand, <strong>Puppeteer</strong> is a Node.js library that provides a high-level API to control headless Chrome or Chromium browsers. Puppeteer can also be used to generate PDFs from web pages, leveraging the powerful rendering capabilities of Chrome.</p>
+    <h3 id="importance-of-pdf-generation-in-web-applications">Importance of PDF Generation in Web Applications</h3>
+    <p>PDF generation is a crucial aspect of web development, particularly when dealing with documentation, reports, invoices, or other content that requires a consistent and portable format. Efficient PDF generation ensures seamless user experience, accurate document rendering, and optimal resource utilization.</p>
+    <h2 id="methodology">Methodology</h2>
+    <h3 id="description-of-the-test-environment">Description of the Test Environment</h3>
+    <p>The tests were conducted on a machine with the following specifications:</p>
+    <ul>
+        <li>Operating System: Linux Mint 20.3 Cinnamon</li>
+        <li>RAM: 30.6 GiB</li>
+        <li>CPU: AMD Ryzen 7 PRO 4750U with Radeon Graphics × 8</li>
+    </ul>
+    <p>We used Docker to set up isolated environments for each library. The Dockerfiles for both libraries can be found in the GitHub repository:</p>
+    <ul>
+        <li>Dockerfile-wkhtmltopdf (1.2G)</li>
+        <li>Dockerfile-puppeteer (2.0G)</li>
+    </ul>
+    <h3 id="overview-of-conducted-tests">Overview of Conducted Tests</h3>
+    <p>We performed two types of tests to evaluate the performance of wkhtmltopdf and Puppeteer using the k6 load testing tool:</p>
+    <h4 id="sequential-tests">Sequential Tests</h4>
+    <p>In these tests, we generated PDFs one after another, simulating a single-user scenario. We used the <code>sequential.js</code> script to run 10 iterations with 1 virtual user. The goal of these tests was to assess the performance of each library under controlled conditions, without any additional load.</p>
+    <pre class=" language-shell"><code class="prism  language-shell"># Running sequential tests with loadtest.sh
+docker run --rm -i --network="host" grafana/k6 run -e URL=http://localhost:3001/generate-pdf-wkhtmltopdf - &lt;sequential.js
+docker run --rm -i --network="host" grafana/k6 run -e URL=http://localhost:3000/generate-pdf-puppeteer - &lt;sequential.js
+</code></pre>
+    <h4 id="concurrent-requests-tests">Concurrent Requests Tests</h4>
+    <p>In these tests, we simulated multiple concurrent users requesting PDF generation simultaneously. We used the <code>concurrent.js</code> script to run the tests for 30 seconds with 5 virtual users. This allowed us to evaluate the libraries’ performance under load and assess their ability to handle multiple requests concurrently.</p>
+    <pre class=" language-shell"><code class="prism  language-shell"># Running concurrent tests with loadtest.sh
+docker run --rm -i --network="host" grafana/k6 run -e URL=http://localhost:3001/generate-pdf-wkhtmltopdf - &lt;concurrent.js
+docker run --rm -i --network="host" grafana/k6 run -e URL=http://localhost:3000/generate-pdf-puppeteer - &lt;concurrent.js
+</code></pre>
+    <h3 id="discussion-of-performance-metrics-used-for-evaluation">Discussion of Performance Metrics Used for Evaluation</h3>
+    <p>We used several performance metrics to evaluate the libraries:</p>
+    <ol>
+        <li><strong>Response Time</strong>: The time taken to generate a single PDF or to process multiple concurrent requests, as reported by k6.</li>
+        <li><strong>RAM Usage</strong>: The memory consumption of each library during PDF generation, monitored using the <code>stats.sh</code> script and Docker stats.</li>
+        <li><strong>CPU Usage</strong>: The CPU utilization during the PDF generation process, also monitored using the <code>stats.sh</code> script and Docker stats.</li>
+    </ol>
+    <p>These metrics allowed us to compare the efficiency of each library and determine their suitability for different use cases.</p>
+    <h2 id="results">Results</h2>
+    <h3 id="results-table">Results Table</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Test Scenario</th>
+            <th>wkhtmltopdf Average Response Time</th>
+            <th>Puppeteer Average Response Time</th>
+            <th>wkhtmltopdf Average CPU Usage</th>
+            <th>Puppeteer Average CPU Usage</th>
+            <th>wkhtmltopdf Average RAM Usage</th>
+            <th>Puppeteer Average RAM Usage</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Sequential</td>
+            <td>251.62 ms</td>
+            <td>227.07 ms</td>
+            <td>7.94%</td>
+            <td>45.60%</td>
+            <td>34.92 MiB</td>
+            <td>85.32 MiB</td>
+        </tr>
+        <tr>
+            <td>Concurrent</td>
+            <td>253.41 ms</td>
+            <td>231.34 ms</td>
+            <td>39.28%</td>
+            <td>452.07%</td>
+            <td>34.65 MiB</td>
+            <td>203.27 MiB</td>
+        </tr>
+        </tbody>
+    </table><h3 id="ram-usage-comparison">RAM Usage Comparison</h3>
+    <p>In the sequential tests, the average RAM usage for wkhtmltopdf was 34.92 MiB, while Puppeteer consumed more RAM, with an average of 85.32 MiB. During the concurrent tests, the average RAM usage for wkhtmltopdf was 34.65 MiB, and for Puppeteer, it was significantly higher at 203.27 MiB.</p>
+    <h3 id="cpu-usage-comparison">CPU Usage Comparison</h3>
+    <p>In the sequential tests, the average CPU usage for wkhtmltopdf was 7.94%, whereas Puppeteer had a much higher average CPU usage of 45.60%. During the concurrent tests, the average CPU usage for wkhtmltopdf was 39.28%, and for Puppeteer, it was significantly higher at 452.07%.</p>
+    <h3 id="performance-analysis-during-pdf-generation">Performance Analysis during PDF Generation</h3>
+    <p>While Puppeteer had faster response times in both sequential and concurrent tests, it consumed considerably more CPU and RAM resources compared to wkhtmltopdf. Moreover, to run Puppeteer, an additional 800MB of disk space is required for the Docker image due to the extra libraries and files needed for proper execution. This indicates that the minimal improvement in response time may not be worth the significantly higher resource consumption.</p>
+    <h2 id="conclusions">Conclusions</h2>
+    <h3 id="performance-of-wkhtmltopdf-in-comparison-to-puppeteer">Performance of wkhtmltopdf in Comparison to Puppeteer</h3>
+    <p>In our tests, we observed that Puppeteer generally provided faster response times compared to wkhtmltopdf. However, this performance advantage came at the cost of higher CPU and RAM usage. Specifically, Puppeteer’s CPU and RAM usage was significantly higher in both sequential and concurrent tests.</p>
+    <h3 id="recommendations-for-different-use-cases">Recommendations for Different Use Cases</h3>
+    <p>Based on our findings, we recommend the following for different use cases:</p>
+    <ul>
+        <li>For projects with a limited budget for server resources or those prioritizing lower resource consumption, wkhtmltopdf may be a more suitable choice due to its lower CPU and RAM usage.</li>
+        <li>For projects where fast response times are crucial and resource consumption is less of a concern, Puppeteer may be a better option, especially if the number of concurrent PDF generation requests is expected to be high.</li>
+    </ul>
+    <p>It is important to evaluate the specific requirements and constraints of each project to determine which tool is best suited for the task.</p>
+    <h3 id="potential-limitations-and-areas-for-further-research">Potential Limitations and Areas for Further Research</h3>
+    <p>Our tests were limited to specific scenarios and may not cover all possible use cases. In addition, the tests were conducted on a single machine with a specific hardware configuration, which could influence the results. It is also worth noting that our tests focused on average values, which might not fully represent the performance characteristics of the tools under varying conditions.</p>
+    <p>Further research could explore additional scenarios, such as varying levels of concurrency or different HTML content types, to provide a more comprehensive understanding of the performance and resource consumption of both wkhtmltopdf and Puppeteer. Additionally, conducting tests on different hardware configurations and platforms could help in understanding how these factors influence the performance of both tools.</p>
+    <h2 id="summary">Summary</h2>
+    <h3 id="overall-assessment-of-both-libraries">Overall Assessment of Both Libraries</h3>
+    <p>In our performance comparison, we found that Puppeteer generally offers faster response times than wkhtmltopdf, but at the cost of higher CPU and RAM usage, as well as additional disk space requirements for the Docker image. Both libraries have their merits and limitations depending on the specific use case and requirements of a project.</p>
+    <h3 id="recommendations-for-decision-makers-choosing-a-library">Recommendations for Decision-Makers Choosing a Library</h3>
+    <p>When deciding which library to use, it is crucial to evaluate the needs and constraints of the project. If fast response times and high concurrency support are the top priorities, Puppeteer might be the better choice. However, if lower resource consumption, including CPU, RAM, and disk space, is the primary concern, wkhtmltopdf may be more suitable. It is essential to consider whether the marginal improvement in response time is worth the substantially increased resource usage that comes with using Puppeteer.</p>
+    <h2 id="additional-resources-and-references">Additional Resources and References</h2>
+    <h3 id="links-to-libraries-documentation">Links to Libraries Documentation</h3>
+    <p>For more information on each library, please refer to their official documentation:</p>
+    <ul>
+        <li><a href="https://wkhtmltopdf.org/usage/wkhtmltopdf.txt">wkhtmltopdf Documentation</a></li>
+        <li><a href="https://pptr.dev/">Puppeteer Documentation</a></li>
+    </ul>
+    <h3 id="data-sources-and-tools-used-in-the-research">Data Sources and Tools Used in the Research</h3>
+    <p>The data presented in this article was obtained using custom-built testing scripts that simulated the PDF generation process for both wkhtmltopdf and Puppeteer. The tests were conducted on a machine with the following hardware configuration: 8-Core CPU and 32GB of RAM. The resource usage data was collected using Docker and Docker Stats, while response times were recorded using built-in time measurement functions. Additionally, the k6 load testing tool was used for concurrent test scenarios.</p>
+    <p>For the full set of test scripts and data, please refer to our <a href="https://github.com/Kyotu-Technology/kyotu">GitHub repository</a>.</p>
+    <p>Please note that the results presented in this article are specific to the test scenarios and hardware configurations used in our research, and may not be applicable to all use cases or environments.</p>
+</div>
+</body>
+
+</html>

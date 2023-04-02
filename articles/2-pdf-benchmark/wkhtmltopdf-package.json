@@ -1,0 +1,10 @@
+{
+  "name": "wkhtmltopdf_pdf_generation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wkhtmltopdf.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "wkhtmltopdf": "^0.4.0"
+  }
+}
