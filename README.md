@@ -5,6 +5,7 @@ Welcome to the technology repository of KYOTU Technology! This is the place wher
 ## Contents
 
 - [Company Blog](/articles) - Read articles about our experiences, learnings, and insights into the world of software development.
+- [Recruitment Challenges](/recruitment-challenges) - Are you interested in joining our team? Check out our recruitment challenges and see if you have what it takes to become a part of KYOTU Technology.
 
 ## Contributing
 
