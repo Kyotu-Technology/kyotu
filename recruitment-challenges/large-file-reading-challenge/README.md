@@ -1,7 +1,7 @@
 # Large file reading challenge
 
 Welcome in the recruitment challenge.
-Write an application that, at the endpoint specified by you, returns the monthly average temperatures for a given city in the format (here will be the format).
+Write an application that, at the endpoint specified by you, returns the yearly average temperatures for a given city in the format array of objects with the following fields: year, averageTemperature.
 
 ## Assumptions
 
