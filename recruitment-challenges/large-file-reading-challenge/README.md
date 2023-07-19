@@ -6,7 +6,7 @@ Write an application that, at the endpoint specified by you, returns the yearly 
 ## Assumptions
 
 - CSV file with data is no less than 3GB in size.
-- The file represents temperature measurements in the format city;yyyy-mm-dd;temp
+- The file represents temperature measurements in the format city;yyyy-mm-dd HH:mm:ss.SSS;temp
 - The content of the source file may change during the application's running
 
 ## Example source file
