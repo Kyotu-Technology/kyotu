@@ -6,10 +6,13 @@ The challenge is designed to test your problem-solving skills, knowledge of cert
 
 ## Contents
 
+### Developer Challenges
 1. [Large File Reading Challenge](/recruitment-challenges/large-file-reading-challenge) - This challenge involves processing and managing large data files. It is an opportunity to demonstrate your understanding of memory management, file I/O, data processing, and optimization techniques.
-2. [GitOps Multi-Cluster Management Challenge](/recruitment-challenges/devops-challenge/GITOPS/README.md) - This task will test your skills in GitOps practices, multi-cluster management, and Helm chart usage.
-3. [EKS Cluster Setup Challenge](/recruitment-challenges/devops-challenge/EKS/README.md) - In this task, you'll demonstrate your skills in infrastructure as code, cloud architecture, and Kubernetes management.
-4. [Elevator System Simulation Challenge](/recruitment-challenges/elevator-system-simulation-challenge) - This challenge involves creating a simulation of an elevator system in a building, including backend logic and frontend visualization.
+2. [Elevator System Simulation Challenge](/recruitment-challenges/elevator-system-simulation-challenge) - This challenge involves creating a simulation of an elevator system in a building, including backend logic and frontend visualization.
+
+### DevOps Challenges
+1. [GitOps Multi-Cluster Management Challenge](/recruitment-challenges/devops-challenge/GITOPS/README.md) - This task will test your skills in GitOps practices, multi-cluster management, and Helm chart usage.
+2. [EKS Cluster Setup Challenge](/recruitment-challenges/devops-challenge/EKS/README.md) - In this task, you'll demonstrate your skills in infrastructure as code, cloud architecture, and Kubernetes management.
 
 ## How to Submit
 
