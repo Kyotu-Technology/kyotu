@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Main {
   // Task
   //
@@ -18,10 +20,12 @@ public class Main {
   //
   // Constraints:
   // * Length of nums <= 10^5
-  // * nums[i] >= 0 for all i
+  // * nums[i] >= 0 and nums[i] <= 10^9 for all i
   public static void main(String[] args) {
     System.out.println("Hello, world!");
   }
 
-  static int countPairs(List<Integer> nums) {}
+  static int countPairs(List<Integer> nums) {
+    return 0;
+  }
 }
