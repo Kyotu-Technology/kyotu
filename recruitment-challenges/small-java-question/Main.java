@@ -6,7 +6,7 @@ public class Main {
   //
   // Example 1
   // [1,2,3,4,5]
-  // Answer: 3. Indices that fulfill criteria are: (1,2), (1,5), (2,4).
+  // Answer: 4. Indices that fulfill criteria are: (0,1), (0,4), (1,3), (3,4).
   //
   // Example 2
   // [3,0,6,9]
@@ -22,4 +22,6 @@ public class Main {
   public static void main(String[] args) {
     System.out.println("Hello, world!");
   }
+
+  static int countPairs(List<Integer> nums) {}
 }
