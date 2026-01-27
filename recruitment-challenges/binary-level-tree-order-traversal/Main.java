@@ -12,6 +12,7 @@
 // Input: root = []
 // Output: []
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,6 +62,15 @@ class Main {
       printTree(node.left, newPrefix, true);
       printTree(node.right, newPrefix, false);
     }
+  }
+
+  public static List<List<Integer>> levelOrderIt(TreeNode root) {
+    List<TreeNode> currentLevelNodes = List.of(root);
+    List<List<Integer>> result = new ArrayList<>();
+    while (!currentLevelNodes.isEmpty()) {
+      // What to do here?
+    }
+    return result;
   }
 
   public static void main(String[] args) {
